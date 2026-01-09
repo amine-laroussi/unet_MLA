@@ -1,2 +1,5 @@
 #Référence
 *.pdf
+#Data
+*.png
+*.jpg
