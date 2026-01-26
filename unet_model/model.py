@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.init as init
 
-
 #----------------------------------
 # 1 Fonction center crop (gris)
 #----------------------------------
@@ -18,7 +17,6 @@ def center_crop(feature_map, target_tensor):
     left = delta_w // 2
 
     return feature_map[:, :, top:top+th, left:left+tw]
-
 #----------------------------------
 # 2 DOUBLE CONVOLUTION (blue)
 #----------------------------------
