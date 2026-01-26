@@ -6,6 +6,7 @@ from skimage.segmentation import find_boundaries
 #------------------------------------------
 # pixel error metric
 #------------------------------------------
+
 def pixel_error (pred, gt,ignore_value=255):
     valid= gt!=ignore_value
     return np.mean (pred[valid]!=gt[valid])
@@ -58,7 +59,7 @@ def rand_error(pred, gt, ignore_value=255):
 # warping error metric
 #------------------------------------------
 def warping_error_bidirectional(pred, gt):
-        # Extract boundaries
+    # Extract boundaries
     gt_bound = find_boundaries(gt, mode='inner')
     pred_bound = find_boundaries(pred, mode='inner')
 
@@ -75,6 +76,32 @@ def warping_error_bidirectional(pred, gt):
 
     # Symmetric boundary distance
     return 0.5 * (d_gt_to_pred.mean() + d_pred_to_gt.mean())
+
+#------------------------------------------
+# DICE Coeifficient metric
+#------------------------------------------
+def dice_coefficient(pred, gt, ignore_value=255):
+    valid= gt!=ignore_value
+    pred= pred[valid]
+    gt= gt[valid]
+    intersection= np.sum (pred*gt)
+    size_sum=  (np.sum(pred)+ np.sum (gt))
+    if size_sum==0:
+        return 1.0
+    return (2.0 * intersection) / size_sum
+
+#------------------------------------------
+# ioU Coeifficient metric
+#------------------------------------------
+def iou_coefficient(pred, gt, ignore_value=255):
+    valid= gt!=ignore_value
+    pred= pred[valid]
+    gt= gt[valid]
+    intersection= np.sum (pred*gt)
+    union= np.sum (pred)+ np.sum (gt)- intersection
+    if union==0:
+        return 1.0   
+    return intersection / union
 
 
 
