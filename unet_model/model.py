@@ -17,6 +17,17 @@ def center_crop(feature_map, target_tensor):
     left = delta_w // 2
 
     return feature_map[:, :, top:top+th, left:left+tw]
+
+#----------------------------------
+# 5 INISAILISATION HE
+#----------------------------------
+def init_weights_he(m):
+    """Initialisation He pour toutes les convolutions"""
+    if isinstance(m,nn.Conv2d) or isinstance(m,nn.ConvTranspose2d):
+        init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+        if m.bias is not None:
+            nn.init.zeros_(m.bias)
+
 #----------------------------------
 # 2 DOUBLE CONVOLUTION (blue)
 #----------------------------------
@@ -45,7 +56,7 @@ class Encoder(nn.Module):
         self.bottleneck = DoubleConv(512, 1024) 
         self.pool = nn.MaxPool2d(2)
 
-        def forward (self,x):
+    def forward(self, x):
             s1= self.enc1(x)
             x=self.pool(s1)
 
@@ -84,7 +95,7 @@ class Decoder(nn.Module):
         self.dec4= DoubleConv(128,64)
 
     def forward(self,x,skip):
-        s1, s2, s3, s4 = skips
+        s1, s2, s3, s4 = skip
 
         x = self.up1(x)
         s4 = center_crop(s4, x)
@@ -114,24 +125,15 @@ class Decoder(nn.Module):
 # --------------------------------------------------
 #  5. U-NET MODEL
 # --------------------------------------------------
-class unet(nn.module):
+class unet(nn.Module):
     def __init__(self,num_classes=2,dropout_rate=1):  
         super().__init__()
-        self.encoder = Encoder(dropout_rate=dropout_rate)
+        self.encoder = self.encoder = Encoder()
         self.decoder = Decoder()
         self.final_conv = nn.Conv2d(64, num_classes, kernel_size=1)
 
     def forward(self, x):
-        x, skips = self.encoder(x)
-        x = self.decoder(x, skips)
+        x, skip = self.encoder(x)
+        x = self.decoder(x, skip)
         x = self.final_conv(x)
         return x
-#----------------------------------
-# 5 INISAILISATION HE
-#----------------------------------
-def init_weights_he(m):
-    """Initialisation He pour toutes les convolutions"""
-    if isinstance(m,nn.Conv2d) or isinstance(m,nn.ConvTranspose2d):
-        init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-        if m.bias is not None:
-            nn.init.zeros_(m.bias)
