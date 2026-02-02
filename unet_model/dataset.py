@@ -9,7 +9,7 @@ import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 from scipy.ndimage import distance_transform_edt
-from dataset_normalizer import data_augmentation
+from unet_model import data_augmentation
 # --------------------------------------------------
 #  1. Fonction Center Crop Image
 # --------------------------------------------------

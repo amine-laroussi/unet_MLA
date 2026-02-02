@@ -4,7 +4,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 
 from unet_model.model import unet
-from dataset_normalizer.dataset import SegmentationDataset
+from unet_model.dataset import SegmentationDataset
 
 
 # ============================================================
@@ -12,6 +12,17 @@ from dataset_normalizer.dataset import SegmentationDataset
 # ============================================================
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
+# ============================================================
+# SET SEED FUNCTION 
+# ============================================================
+def set_seed(seed=42):
+    import random, numpy as np
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
 # ============================================================
 # Hyperparameters

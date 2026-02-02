@@ -13,11 +13,14 @@ NOTEBOOKS_DIR          = os.path.join(PROJECT_ROOT, "notebooks")
 SAVED_MODELS_DIR       = os.path.join(PROJECT_ROOT, "saved_models")
 
 # Raw dataset paths
-RAW_ISBI_IMG_DATASET_DIR          = os.path.join(PROJECT_ROOT, "bdd", "non_normalized", "ISBI", "Img")
-RAW_ISBI_GT_DATASET_DIR           = os.path.join(PROJECT_ROOT, "bdd", "non_normalized", "ISBI", "GT")
+RAW_ISBI_IMG_DATASET_DIR = os.path.join(PROJECT_ROOT, "bdd","ISBI", "images")
+RAW_ISBI_GT_DATASET_DIR  = os.path.join(PROJECT_ROOT, "bdd", "ISBI","labels")
+RAW_PHC_GT_DATASET_DIR   = os.path.join(PROJECT_ROOT, "bdd","PHC", "SEG")
+RAW_PHC_IMG_DATASET_DIR  = os.path.join(PROJECT_ROOT, "bdd", "PHC", "01")
 
 # Normalized dataset paths
 ISBI_DATASET_DIR           = os.path.join(PROJECT_ROOT, "bdd", "normalized", "ISBI")
+PHC_DATASET_DIR            = os.path.join(PROJECT_ROOT, "bdd", "normalized", "PHC")
 
 # Model save
 UNET_ISBI              = "unet_isbi.pth"
